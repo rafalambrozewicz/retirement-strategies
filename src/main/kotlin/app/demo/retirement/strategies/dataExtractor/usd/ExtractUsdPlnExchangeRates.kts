@@ -104,8 +104,8 @@ fun extractOld(file: File, countryName: String): List<CurrencyRow> {
 
 fun extractNew(file: File, currencyCode: String): List<CurrencyRow> {
 
-    val firstFormatter = DateTimeFormatter.ofPattern("d.MM.yyyy");
-    val secondFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+    val firstFormatter = DateTimeFormatter.ofPattern("d.MM.yyyy")
+    val secondFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
 
     val currenciesRowIndex = 0
     val descriptionRowsOffset = 1
