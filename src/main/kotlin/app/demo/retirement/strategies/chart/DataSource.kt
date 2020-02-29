@@ -47,5 +47,14 @@ class DataSource {
                         .groupBy { it.first.year }
                         .map { it.key to it.value.map { it.second }.avg() }
                         .toMap()
+
+        fun retrieveYearToFlatValue(): Map<Int, BigDecimal> =
+                File("src/main/resources/price_for_1m2_of_residential_building_1965_2019.csv")
+                        .readLines()
+                        .drop(HEADER_OFFSET)
+                        .map { YearMonth.parse(it.split(";")[0], yyyyMMFormatter) to it.split(";")[1].toBigDecimal().setScale(4) }
+                        .groupBy { it.first.year }
+                        .map { it.key to it.value.map { it.second }.avg() }
+                        .toMap()
     }
 }

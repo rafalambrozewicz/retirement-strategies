@@ -1,5 +1,6 @@
 package app.demo.retirement.strategies
 
+import app.demo.retirement.strategies.chart.flat.FlatChart
 import app.demo.retirement.strategies.chart.gold.GoldChart
 import app.demo.retirement.strategies.chart.inflation.InflationChart
 import app.demo.retirement.strategies.chart.usd.UsdChart
@@ -17,4 +18,8 @@ fun main(args: Array<String>) {
     gC.buildGoldYearlyChart("charts/gold_yearly_1984_2019.png")
     gC.builGoldYearlyChartInflationAdjusted("charts/gold_inflation_yearly_1985_2019.png")
     gC.buildGoldCumulativeChartInflationAdjusted("charts/gold_inflation_cumulative_1985_2019.png")
+    val fC = FlatChart()
+    fC.buildFlatValueYearlyChart("charts/flat_yearly_1965_2019.png")
+    fC.buildFlatYearlyChartInflationAdjusted("charts/flat_inflation_yearly_1966_2019.png")
+    fC.buildFlatCumulativeChartInflationAdjusted("charts/flat_inflation_cumulative_1966_2019.png")
 }
