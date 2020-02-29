@@ -19,3 +19,11 @@ dependencies {
 application {
     mainClassName = "app.demo.retirement.strategies.AppKt"
 }
+
+sourceSets {
+    named("main") {
+        withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+            kotlin.srcDirs("src/main/kotlin", "src/main/kotlinX")
+        }
+    }
+}
