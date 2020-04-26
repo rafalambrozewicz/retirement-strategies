@@ -2,6 +2,7 @@ package app.demo.retirement.strategies
 
 import app.demo.retirement.strategies.chart.flat.FlatChart
 import app.demo.retirement.strategies.chart.gold.GoldChart
+import app.demo.retirement.strategies.chart.labor.LaborChart
 import app.demo.retirement.strategies.chart.pln.PlnChart
 import app.demo.retirement.strategies.chart.usd.UsdChart
 
@@ -21,4 +22,8 @@ fun main(args: Array<String>) {
     val fC = FlatChart()
     fC.buildYearlyPurchasingPowerChart("charts/pp_flat_yearly_1966_2019.png")
     fC.buildTotalPurchasingPowerChart("charts/pp_flat_total_1966_2019.png")
+
+    val lC = LaborChart()
+    lC.buildYearlyPurchasingPowerChart("charts/pp_labor_yearly_1951_2019.png")
+    lC.buildTotalPurchasingPowerChart("charts/pp_labor_total_1951_2019.png")
 }

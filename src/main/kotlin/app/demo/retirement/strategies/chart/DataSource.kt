@@ -56,5 +56,12 @@ class DataSource {
                         .groupBy { it.first.year }
                         .map { it.key to it.value.map { it.second }.avg() }
                         .toMap()
+
+        fun retrieveYearToLaborValue(): Map<Int, BigDecimal> =
+                File("src/main/resources/annual_salary_1950_2019.csv")
+                        .readLines()
+                        .drop(HEADER_OFFSET)
+                        .map { (it.split(";")[0]).toInt() to (it.split(";")[1].toBigDecimal().setScale(4)) }
+                        .toMap()
     }
 }
