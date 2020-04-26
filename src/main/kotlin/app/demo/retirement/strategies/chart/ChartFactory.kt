@@ -25,6 +25,7 @@ class ChartFactory {
                 ySeries: Collection<Series<T>>,
                 xAxisDecimalPattern: String = "#",
                 yAxisDecimalPattern: String = "#",
+                legendPosition: Styler.LegendPosition = Styler.LegendPosition.InsideNE,
                 yAxisLogarithmic: Boolean = false): XYChart {
             val xyChart = XYChartBuilder()
                     .width(800)
@@ -39,6 +40,7 @@ class ChartFactory {
                 this.styler.setXAxisDecimalPattern(xAxisDecimalPattern)
                 this.styler.setYAxisDecimalPattern(yAxisDecimalPattern)
 
+                this.styler.setLegendPosition(legendPosition);
                 this.styler.setYAxisLogarithmic(yAxisLogarithmic)
 
                 ySeries.forEach {

@@ -2,24 +2,23 @@ package app.demo.retirement.strategies
 
 import app.demo.retirement.strategies.chart.flat.FlatChart
 import app.demo.retirement.strategies.chart.gold.GoldChart
-import app.demo.retirement.strategies.chart.inflation.InflationChart
+import app.demo.retirement.strategies.chart.pln.PlnChart
 import app.demo.retirement.strategies.chart.usd.UsdChart
 
 fun main(args: Array<String>) {
-    val ic = InflationChart()
-    ic.buildYearlyInflationChart("charts/inflation_yearly_1950_2019.png")
-    ic.buildCumulativeInflationChartLogYScale("charts/inflation_cumulative_logY_1950_2019.png")
-    ic.buildCumulativeInflationChart("charts/inflation_cumulative_1950_2019.png")
+    val plnC = PlnChart()
+    plnC.buildYearlyPurchasingPowerChart("charts/pp_pln_plz_yearly_1950_2019.png")
+    plnC.buildTotalPurchasingPowerChartLogYScale("charts/pp_pln_plz_total_1950_2019_logY.png")
+
     val usdC = UsdChart()
-    usdC.buildUsdYearlyChart("charts/usd_yearly_1984_2019.png")
-    usdC.buildUsdYearlyChartInflationAdjusted("charts/usd_inflation_yearly_1985_2019.png")
-    usdC.buildUsdCumulativeChartInflationAdjusted("charts/usd_inflation_cumulative_1985_2019.png")
+    usdC.buildYearlyPurchasingPowerChart("charts/pp_usd_yearly_1985_2019.png")
+    usdC.buildTotalPurchasingPowerChart("charts/pp_usd_total_1985_2019.png")
+
     val gC = GoldChart()
-    gC.buildGoldYearlyChart("charts/gold_yearly_1984_2019.png")
-    gC.builGoldYearlyChartInflationAdjusted("charts/gold_inflation_yearly_1985_2019.png")
-    gC.buildGoldCumulativeChartInflationAdjusted("charts/gold_inflation_cumulative_1985_2019.png")
+    gC.buildYearlyPurchasingPowerChart("charts/pp_gold_yearly_1985_2019.png")
+    gC.buildTotalPurchasingPowerChart("charts/pp_gold_total_1985_2019.png")
+
     val fC = FlatChart()
-    fC.buildFlatValueYearlyChart("charts/flat_yearly_1965_2019.png")
-    fC.buildFlatYearlyChartInflationAdjusted("charts/flat_inflation_yearly_1966_2019.png")
-    fC.buildFlatCumulativeChartInflationAdjusted("charts/flat_inflation_cumulative_1966_2019.png")
+    fC.buildYearlyPurchasingPowerChart("charts/pp_flat_yearly_1966_2019.png")
+    fC.buildTotalPurchasingPowerChart("charts/pp_flat_total_1966_2019.png")
 }

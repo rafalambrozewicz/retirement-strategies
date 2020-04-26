@@ -2,83 +2,47 @@ package app.demo.retirement.strategies.chart.flat
 
 import app.demo.retirement.strategies.chart.ChartFactory
 import app.demo.retirement.strategies.chart.DataSource
+import app.demo.retirement.strategies.chart.GoodPurchasingPowerCalc
 import app.demo.retirement.strategies.chart.Series
-import java.math.BigDecimal
-import java.math.RoundingMode
+import org.knowm.xchart.style.Styler
 
 class FlatChart {
-    fun buildFlatValueYearlyChart(outputImageName: String) {
+    private val calc = GoodPurchasingPowerCalc(DataSource.retrieveYearToFlatValue())
 
-        val yearToFlatValue = DataSource.retrieveYearToFlatValue()
+    fun buildYearlyPurchasingPowerChart(outputImageName: String) {
+        val yearToPurchasingPower = calc.calcYearly()
+
         val chart = ChartFactory.buildXYChart(
-                title = "1m² pow. b. miesz./PLN (zakładając, że denominacja nastapiła w 1984)",
+                title = "Siła nabywcza, 1m² pow. b. miesz, ${calc.years()}",
                 xAxisTitle = "rok",
-                yAxisTitle = "wartość w pln",
-                xSeries = yearToFlatValue.keys.toList(),
-                ySeries = listOf(Series("1m²\npowierzchni\nuzytkowej\nbudynku\nmieszkalnego", yearToFlatValue.values.toList())),
-                yAxisDecimalPattern = "###.##"
-        )
+                yAxisTitle = "siła nabywcza (poprzedni rok = 100.0)",
+                xSeries = yearToPurchasingPower.keys.toList(),
+                ySeries = listOf(Series("1m²\n" +
+                        "powierzchni\n" +
+                        "uzytkowej\n" +
+                        "budynku\n" +
+                        "mieszkalnego", yearToPurchasingPower.values.toList())),
+                yAxisDecimalPattern = "###.##")
 
         ChartFactory.save(outputImageName, chart)
     }
 
-    fun buildFlatYearlyChartInflationAdjusted(outputImageName: String) {
-        val yearToFlatValue = DataSource.retrieveYearToFlatValue()
-        val inflation = DataSource.retrieveYearToInflationValue()
-                .filter { it.key > yearToFlatValue.keys.first() }
-                .values
-
-        val flatToPlnInflation = yearToFlatValue.values
-                .windowed(2, 1)
-                .map { it.first() * "100".toBigDecimal() / it.last() }
-
-        val flatInflation = inflation.zip(flatToPlnInflation) { dInf, dGold ->
-            ((dInf / "100".toBigDecimal()) * (dGold / "100".toBigDecimal())) * "100".toBigDecimal() }
+    fun buildTotalPurchasingPowerChart(outputImageName: String) {
+        val yearToTotalPurchasingPower = calc.calcTotal()
 
         val chart = ChartFactory.buildXYChart(
-                title = "Inflacja \"Nieruchomość\", coroczna, 1966-2019",
+                title = "Siła nabywcza, 1m² pow. b. miesz, ${calc.years()}",
                 xAxisTitle = "rok",
-                yAxisTitle = "wartość (poprzedni rok = 100.0)",
-                xSeries = yearToFlatValue.keys.toList().drop(1),
-                ySeries = listOf(Series("nieruchomość", flatInflation)),
-                yAxisDecimalPattern = "###.##"
-        )
+                yAxisTitle = "siła nabywcza (w roku ${calc.zeroYearForTotal()} = 100.0)",
+                xSeries = yearToTotalPurchasingPower.keys,
+                ySeries = listOf(Series("1m²\n" +
+                        "powierzchni\n" +
+                        "uzytkowej\n" +
+                        "budynku\n" +
+                        "mieszkalnego", yearToTotalPurchasingPower.values.toList())),
+                legendPosition = Styler.LegendPosition.InsideSE,
+                yAxisDecimalPattern = "###.##")
 
         ChartFactory.save(outputImageName, chart)
     }
-
-    fun buildFlatCumulativeChartInflationAdjusted(outputImageName: String) {
-
-        val yearToFlatValue = DataSource.retrieveYearToFlatValue()
-        val inflation = DataSource.retrieveYearToInflationValue()
-                .filter { it.key > yearToFlatValue.keys.first() }
-                .values
-
-        val flatToPlnInflation = yearToFlatValue.values
-                .windowed(2, 1)
-                .map { it.first() * "100".toBigDecimal() / it.last() }
-
-        val flatInflation = inflation.zip(flatToPlnInflation) { dInf, dGold ->
-            ((dInf / "100".toBigDecimal()) * (dGold / "100".toBigDecimal())) * "100".toBigDecimal() }
-
-        val cumulativeFlatInflation = flatInflation.fold(listOf<BigDecimal>(), { acc, v ->  when {
-            acc.isEmpty() -> acc + v
-            else -> acc + (((acc.last() / "100".toBigDecimal().setScale(4)) *
-                    (v / "100".toBigDecimal().setScale(4))) * "100".toBigDecimal().setScale(4))
-                    .setScale(4, RoundingMode.HALF_UP)
-        }})
-
-        val chart = ChartFactory.buildXYChart(
-                title = "Inflacja \"Nieruchomość\", skumulowana, 1966-2019",
-                xAxisTitle = "rok",
-                yAxisTitle = "wartość (w roku 1965 = 100.0)",
-                xSeries = yearToFlatValue.keys.toList().drop(1),
-                ySeries = listOf(Series("nieruchomość", cumulativeFlatInflation)),
-                yAxisDecimalPattern = "###.##"
-        )
-
-        ChartFactory.save(outputImageName, chart)
-    }
-
-
 }
