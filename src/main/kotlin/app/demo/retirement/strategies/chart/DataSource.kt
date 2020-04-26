@@ -63,5 +63,33 @@ class DataSource {
                         .drop(HEADER_OFFSET)
                         .map { (it.split(";")[0]).toInt() to (it.split(";")[1].toBigDecimal().setScale(4)) }
                         .toMap()
+
+        fun retrieveDateToClosingPricesOfWIG(): Map<LocalDate, BigDecimal> =
+                File("src/main/resources/wig/wig_m.csv")
+                        .readLines()
+                        .drop(HEADER_OFFSET)
+                        .map { (LocalDate.parse(it.split(";")[0], yyyyMMddFormatter)) to (it.split(";")[4].toBigDecimal().setScale(4)) }
+                        .toMap()
+
+        fun retrieveDateToClosingPricesOfWIG20(): Map<LocalDate, BigDecimal> =
+                File("src/main/resources/wig/wig20_m.csv")
+                        .readLines()
+                        .drop(HEADER_OFFSET)
+                        .map { (LocalDate.parse(it.split(";")[0], yyyyMMddFormatter)) to (it.split(";")[4].toBigDecimal().setScale(4)) }
+                        .toMap()
+
+        fun retrieveDateToClosingPricesOfmWIG40(): Map<LocalDate, BigDecimal> =
+                File("src/main/resources/wig/mwig40_m.csv")
+                        .readLines()
+                        .drop(HEADER_OFFSET)
+                        .map { (LocalDate.parse(it.split(";")[0], yyyyMMddFormatter)) to (it.split(";")[4].toBigDecimal().setScale(4)) }
+                        .toMap()
+
+        fun retrieveDateToClosingPricesOfsWIG80(): Map<LocalDate, BigDecimal> =
+                File("src/main/resources/wig/swig80_m.csv")
+                        .readLines()
+                        .drop(HEADER_OFFSET)
+                        .map { (LocalDate.parse(it.split(";")[0], yyyyMMddFormatter)) to (it.split(";")[4].toBigDecimal().setScale(4)) }
+                        .toMap()
     }
 }

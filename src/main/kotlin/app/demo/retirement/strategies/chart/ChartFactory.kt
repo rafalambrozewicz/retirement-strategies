@@ -5,6 +5,8 @@ import org.knowm.xchart.XYChart
 import org.knowm.xchart.XYChartBuilder
 import org.knowm.xchart.internal.chartpart.Chart
 import org.knowm.xchart.style.Styler
+import org.knowm.xchart.style.markers.Marker
+import org.knowm.xchart.style.markers.SeriesMarkers
 
 class ChartFactory {
 
@@ -23,6 +25,7 @@ class ChartFactory {
                 yAxisTitle: String,
                 xSeries: Collection<V>,
                 ySeries: Collection<Series<T>>,
+                datePattern: String = "yyyy-MM",
                 xAxisDecimalPattern: String = "#",
                 yAxisDecimalPattern: String = "#",
                 legendPosition: Styler.LegendPosition = Styler.LegendPosition.InsideNE,
@@ -37,6 +40,7 @@ class ChartFactory {
                     .build()
 
             xyChart.apply {
+                this.styler.setDatePattern(datePattern)
                 this.styler.setXAxisDecimalPattern(xAxisDecimalPattern)
                 this.styler.setYAxisDecimalPattern(yAxisDecimalPattern)
 
@@ -44,7 +48,7 @@ class ChartFactory {
                 this.styler.setYAxisLogarithmic(yAxisLogarithmic)
 
                 ySeries.forEach {
-                    this.addSeries(it.name, xSeries.toList(), it.values.toList())
+                    this.addSeries(it.name, xSeries.toList(), it.values.toList()).marker = it.marker
                 }
             }
 
@@ -55,4 +59,5 @@ class ChartFactory {
 
  data class Series<T : Number>(
          val name: String,
-         val values: Collection<T>)
+         val values: Collection<T>,
+         val marker: Marker = SeriesMarkers.CIRCLE)

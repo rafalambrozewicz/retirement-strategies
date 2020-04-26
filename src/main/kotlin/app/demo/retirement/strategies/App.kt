@@ -5,6 +5,7 @@ import app.demo.retirement.strategies.chart.gold.GoldChart
 import app.demo.retirement.strategies.chart.labor.LaborChart
 import app.demo.retirement.strategies.chart.pln.PlnChart
 import app.demo.retirement.strategies.chart.usd.UsdChart
+import app.demo.retirement.strategies.chart.wig.WigChart
 
 fun main(args: Array<String>) {
     val plnC = PlnChart()
@@ -26,4 +27,7 @@ fun main(args: Array<String>) {
     val lC = LaborChart()
     lC.buildYearlyPurchasingPowerChart("charts/pp_labor_yearly_1951_2019.png")
     lC.buildTotalPurchasingPowerChart("charts/pp_labor_total_1951_2019.png")
+
+    val wigChart = WigChart()
+    wigChart.buildWigCompareChart()
 }
