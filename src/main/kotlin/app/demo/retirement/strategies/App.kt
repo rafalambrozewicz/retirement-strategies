@@ -2,6 +2,7 @@ package app.demo.retirement.strategies
 
 import app.demo.retirement.strategies.chart.flat.FlatChart
 import app.demo.retirement.strategies.chart.gold.GoldChart
+import app.demo.retirement.strategies.chart.investments.InvestmentsChart
 import app.demo.retirement.strategies.chart.labor.LaborChart
 import app.demo.retirement.strategies.chart.pln.PlnChart
 import app.demo.retirement.strategies.chart.usd.UsdChart
@@ -30,4 +31,7 @@ fun main(args: Array<String>) {
 
     val wigChart = WigChart()
     wigChart.buildWigCompareChart()
+
+    val investmentsChart = InvestmentsChart()
+    investmentsChart.buildInvestmentsCompareCharts()
 }
